@@ -40,14 +40,12 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
             cardCvvTextView.text = card.cvv
             setCardFlagDrawableResource(card.flag)
 
-            // Get the HEX code for the card's color name
             val colorName = card.cardColor
             val colorArray = itemView.context.resources.getStringArray(R.array.card_colors)
             val colorHexArray = itemView.context.resources.getStringArray(R.array.card_colors_hex)
             val colorIndex = colorArray.indexOf(colorName)
             val colorHex = if (colorIndex >= 0) colorHexArray[colorIndex] else ""
 
-            // Set the background color of the CardView to the HEX code value
             cardView.setCardBackgroundColor(Color.parseColor(colorHex))
 
             itemView.setOnClickListener { onCardClick(it, card) }
@@ -65,9 +63,7 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
         private fun setCardFlagDrawableResource(flag: String) {
             val formattedFlag = flag.lowercase().replace(" ", "_")
             val flagResourceId = itemView.context.resources.getIdentifier(
-                "ic_${formattedFlag}_logo",
-                "drawable",
-                itemView.context.packageName
+                "ic_${formattedFlag}_logo", "drawable", itemView.context.packageName
             )
             if (flagResourceId != 0) {
                 itemView.findViewById<ImageView>(R.id.card_flag_image_view).setImageResource(flagResourceId)

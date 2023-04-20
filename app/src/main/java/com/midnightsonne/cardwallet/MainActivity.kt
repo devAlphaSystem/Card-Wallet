@@ -62,15 +62,12 @@ class MainActivity : AppCompatActivity() {
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
-            // Perform any update or refresh action here
-            // For example, we can reload the cards:
             cards = loadCards()
             cardsAdapter = CardsAdapter(cards) { view, card ->
                 showCardOptions(view, card)
             }
             cardsRecyclerView.adapter = cardsAdapter
 
-            // Then, indicate that the refresh is complete
             swipeRefreshLayout.isRefreshing = false
             Toast.makeText(this, "Cards refreshed", Toast.LENGTH_SHORT).show()
         }

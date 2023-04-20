@@ -29,7 +29,6 @@ class AddCardActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
 
-        // Initialize your input fields and button here
         val cardNameEditText: EditText = findViewById(R.id.card_name_edit_text)
         val cardNumberEditText: EditText = findViewById(R.id.card_number_edit_text)
         val expirationDateEditText: EditText = findViewById(R.id.expiration_date_edit_text)
@@ -39,7 +38,6 @@ class AddCardActivity : AppCompatActivity() {
         val flagSpinner: Spinner = findViewById(R.id.flag_spinner)
         val cardColorSpinner: Spinner = findViewById(R.id.card_color_spinner)
 
-        // Set up the flag and card color spinner with an ArrayAdapter
         val flagsAdapter = ArrayAdapter.createFromResource(
             this, R.array.flags, android.R.layout.simple_spinner_item
         )
@@ -74,10 +72,8 @@ class AddCardActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // Set maxLength for cardNumberEditText to 19 (16 digits + 3 spaces)
         cardNumberEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(19))
 
-        // Add formatting for expiration date
         expirationDateEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -92,54 +88,44 @@ class AddCardActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // Set maxLength for expiration date
         expirationDateEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(5))
 
-        // Set maxLength for CVV
         cvvEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(3))
 
-        // Set maxLength for password
         passwordEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(4))
 
         val addButton: Button = findViewById(R.id.add_card_button)
         addButton.setOnClickListener {
-            // Check if the input data is valid
             if (cardNameEditText.text.isNullOrEmpty() || cardNumberEditText.text.isNullOrEmpty() || expirationDateEditText.text.isNullOrEmpty() || cvvEditText.text.isNullOrEmpty() || cardHolderNameEditText.text.isNullOrEmpty()) {
                 Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Check if the card number has 16 digits
             if (cardNumberEditText.text.toString().replace(" ", "").length != 16) {
                 Toast.makeText(this, "Please enter a valid card number", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Check if the expiration date has 2 parts with 2 digits each separated by a slash
             if (expirationDateEditText.text.toString().split("/").size != 2 || expirationDateEditText.text.toString().split("/")[0].length != 2 || expirationDateEditText.text.toString().split("/")[1].length != 2) {
                 Toast.makeText(this, "Please enter a valid expiration date", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Check if the CVV has 3 digits
             if (cvvEditText.text.toString().length != 3) {
                 Toast.makeText(this, "Please enter a valid CVV", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Check if the password has 4 digits
             if (passwordEditText.text.toString().length != 4) {
                 Toast.makeText(this, "Please enter a valid password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Get the input data and create a new Card instance
             val card = Card(
                 cardNameEditText.text.toString(), cardNumberEditText.text.toString(), expirationDateEditText.text.toString(), cvvEditText.text.toString(), cardHolderNameEditText.text.toString(), flagSpinner.selectedItem.toString(), cardColorSpinner.selectedItem.toString(), passwordEditText.text.toString()
-            )        // Save the card locally, e.g., using SharedPreferences, Room, or another local storage solution
+            )
             saveCard(card)
 
-            // Show a success message and return to the main activity
             Toast.makeText(this, "Card added successfully!", Toast.LENGTH_SHORT).show()
             finish()
         }
