@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="flags">
+        <item>MasterCard</item>
+        <item>Visa</item>
+        <item>Elo</item>
+        <item>Hipercard</item>
+        <item>American Express</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="card_colors">
+        <item>Black</item>
+        <item>Silver</item>
+        <item>Purple</item>
+        <item>Blue</item>
+        <item>Orange</item>
+        <item>Green</item>
+    </string-array>
+
+    <string-array name="card_colors_hex">
+        <item name="Black">#000000</item>
+        <item name="Silver">#C0C0C0</item>
+        <item name="Purple">#800080</item>
+        <item name="Blue">#0000FF</item>
+        <item name="Orange">#FFA500</item>
+        <item name="Green">#008000</item>
+    </string-array>
+
+</resources>

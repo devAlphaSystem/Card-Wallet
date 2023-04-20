@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/copy_card_number"
+        android:title="Copy Card Number"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/copy_card_user_name"
+        android:title="Copy Card User Name"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/copy_card_exp_date"
+        android:title="Copy Card Exp Date"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/copy_card_cvv"
+        android:title="Copy Card CVV"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/delete_card"
+        android:title="Delete Card"
+        tools:ignore="HardcodedText" />
+</menu>
