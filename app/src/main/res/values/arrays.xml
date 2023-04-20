@@ -20,7 +20,7 @@
     </string-array>
 
     <string-array name="card_colors_hex">
-        <item name="Black">#000000</item>
+        <item name="Black">#212121</item>
         <item name="Silver">#C0C0C0</item>
         <item name="Purple">#800080</item>
         <item name="Blue">#0000FF</item>

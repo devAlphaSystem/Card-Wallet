@@ -35,6 +35,7 @@ class AddCardActivity : AppCompatActivity() {
         val expirationDateEditText: EditText = findViewById(R.id.expiration_date_edit_text)
         val cvvEditText: EditText = findViewById(R.id.cvv_edit_text)
         val cardHolderNameEditText: EditText = findViewById(R.id.card_holder_name_edit_text)
+        val passwordEditText: EditText = findViewById(R.id.password_edit_text)
         val flagSpinner: Spinner = findViewById(R.id.flag_spinner)
         val cardColorSpinner: Spinner = findViewById(R.id.card_color_spinner)
 
@@ -97,6 +98,9 @@ class AddCardActivity : AppCompatActivity() {
         // Set maxLength for CVV
         cvvEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(3))
 
+        // Set maxLength for password
+        passwordEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(4))
+
         val addButton: Button = findViewById(R.id.add_card_button)
         addButton.setOnClickListener {
             // Check if the input data is valid
@@ -123,9 +127,15 @@ class AddCardActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Check if the password has 4 digits
+            if (passwordEditText.text.toString().length != 4) {
+                Toast.makeText(this, "Please enter a valid password", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             // Get the input data and create a new Card instance
             val card = Card(
-                cardNameEditText.text.toString(), cardNumberEditText.text.toString(), expirationDateEditText.text.toString(), cvvEditText.text.toString(), cardHolderNameEditText.text.toString(), flagSpinner.selectedItem.toString(), cardColorSpinner.selectedItem.toString()
+                cardNameEditText.text.toString(), cardNumberEditText.text.toString(), expirationDateEditText.text.toString(), cvvEditText.text.toString(), cardHolderNameEditText.text.toString(), flagSpinner.selectedItem.toString(), cardColorSpinner.selectedItem.toString(), passwordEditText.text.toString()
             )        // Save the card locally, e.g., using SharedPreferences, Room, or another local storage solution
             saveCard(card)
 

@@ -63,8 +63,9 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
 
         @SuppressLint("DiscouragedApi")
         private fun setCardFlagDrawableResource(flag: String) {
+            val formattedFlag = flag.lowercase().replace(" ", "_")
             val flagResourceId = itemView.context.resources.getIdentifier(
-                "ic_${flag.lowercase()}_logo",
+                "ic_${formattedFlag}_logo",
                 "drawable",
                 itemView.context.packageName
             )

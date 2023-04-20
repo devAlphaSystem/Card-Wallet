@@ -11,5 +11,6 @@ data class Card(
     val cvv: String,
     val cardHolderName: String,
     val flag: String,
-    val cardColor: String
+    val cardColor: String,
+    val password: String
 ) : Parcelable

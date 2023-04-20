@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     clip = ClipData.newPlainText("Card Number", card.cardNumber)
                 }
 
-                R.id.copy_card_user_name -> {
+                R.id.copy_card_holder -> {
                     clip = ClipData.newPlainText("Card User Name", card.cardHolderName)
                 }
 
@@ -97,6 +97,10 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.copy_card_cvv -> {
                     clip = ClipData.newPlainText("Card CVV", card.cvv)
+                }
+
+                R.id.copy_card_password -> {
+                    clip = ClipData.newPlainText("Card Password", card.password)
                 }
 
                 R.id.delete_card -> {

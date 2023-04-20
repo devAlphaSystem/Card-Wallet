@@ -46,11 +46,20 @@
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <EditText
+            android:id="@+id/card_holder_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/card_holder_hint"
+            android:inputType="text"
+            tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+        <EditText
             android:id="@+id/expiration_date_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/expiration_date_hint"
+            android:hint="@string/card_exp_date_hint"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
@@ -59,17 +68,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/cvv_hint"
+            android:hint="@string/card_cvv_hint"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <EditText
-            android:id="@+id/card_holder_name_edit_text"
+            android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/card_holder_name_hint"
-            android:inputType="text"
+            android:hint="@string/card_password_hint"
+            android:inputType="numberPassword"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <Spinner
