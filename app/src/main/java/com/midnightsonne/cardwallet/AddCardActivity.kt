@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.midnightsonne.cardwallet
 
 import android.annotation.SuppressLint
@@ -12,16 +14,20 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class AddCardActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_CARD = "com.midnightsonne.cardwallet.EXTRA_CARD"
+        const val EXTRA_CARD_POSITION = "com.midnightsonne.cardwallet.EXTRA_CARD_POSITION"
+        const val EXTRA_IS_EDIT = "com.midnightsonne.cardwallet.EXTRA_IS_EDIT"
     }
 
     private lateinit var sharedPreferences: SharedPreferences
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_card)
@@ -37,15 +43,11 @@ class AddCardActivity : AppCompatActivity() {
         val flagSpinner: Spinner = findViewById(R.id.flag_spinner)
         val cardColorSpinner: Spinner = findViewById(R.id.card_color_spinner)
 
-        val flagsAdapter = ArrayAdapter.createFromResource(
-            this, R.array.flags, android.R.layout.simple_spinner_item
-        )
+        val flagsAdapter = ArrayAdapter.createFromResource(this, R.array.flags, android.R.layout.simple_spinner_item)
         flagsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         flagSpinner.adapter = flagsAdapter
 
-        val cardColorsAdapter = ArrayAdapter.createFromResource(
-            this, R.array.card_colors, android.R.layout.simple_spinner_item
-        )
+        val cardColorsAdapter = ArrayAdapter.createFromResource(this, R.array.card_colors, android.R.layout.simple_spinner_item)
         cardColorsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cardColorSpinner.adapter = cardColorsAdapter
 
@@ -94,6 +96,27 @@ class AddCardActivity : AppCompatActivity() {
         passwordEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(4))
 
         val addButton: Button = findViewById(R.id.add_card_button)
+
+        val addCardText: TextView = findViewById(R.id.add_card_text_view)
+
+        val isEdit = intent.getBooleanExtra(EXTRA_IS_EDIT, false)
+        if (isEdit) {
+            val cardToEdit: Card? = intent.getParcelableExtra(EXTRA_CARD)
+            if (cardToEdit != null) {
+                cardNameEditText.setText(cardToEdit.name)
+                cardNumberEditText.setText(cardToEdit.cardNumber)
+                expirationDateEditText.setText(cardToEdit.expirationDate)
+                cvvEditText.setText(cardToEdit.cvv)
+                cardHolderNameEditText.setText(cardToEdit.cardHolderName)
+                passwordEditText.setText(cardToEdit.password)
+
+                flagSpinner.setSelection(flagsAdapter.getPosition(cardToEdit.flag))
+                cardColorSpinner.setSelection(cardColorsAdapter.getPosition(cardToEdit.cardColor))
+            }
+            addButton.text = "Update Card"
+            addCardText.text = "Update Card"
+        }
+
         addButton.setOnClickListener {
             if (cardNameEditText.text.isNullOrEmpty() || cardNumberEditText.text.isNullOrEmpty() || expirationDateEditText.text.isNullOrEmpty() || cvvEditText.text.isNullOrEmpty() || cardHolderNameEditText.text.isNullOrEmpty()) {
                 Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_SHORT).show()
@@ -126,8 +149,16 @@ class AddCardActivity : AppCompatActivity() {
 
             val resultIntent = Intent()
             resultIntent.putExtra(EXTRA_CARD, card)
+            if (isEdit) {
+                val cardPosition: Int = intent.getIntExtra(EXTRA_CARD_POSITION, -1)
+                if (cardPosition != -1) {
+                    resultIntent.putExtra(EXTRA_CARD_POSITION, cardPosition)
+                }
+            }
+
             setResult(RESULT_OK, resultIntent)
-            Toast.makeText(this, "Card added successfully!", Toast.LENGTH_SHORT).show()
+            val actionMessage = if (isEdit) "Card updated successfully!" else "Card added successfully!"
+            Toast.makeText(this, actionMessage, Toast.LENGTH_SHORT).show()
             finish()
         }
     }

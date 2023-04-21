@@ -10,21 +10,23 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
-class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View, Card) -> Unit) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
+class CardsAdapter(
+    private val cards: List<Card>, private val onCardClick: (View, Card, Int) -> Unit
+) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
-        return CardViewHolder(itemView, onCardClick)
+        return CardViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val currentItem = cards[position]
-        holder.bind(currentItem)
+        holder.bind(currentItem, position)
     }
 
     override fun getItemCount() = cards.size
 
-    inner class CardViewHolder(itemView: View, private val onCardClick: (View, Card) -> Unit) : RecyclerView.ViewHolder(itemView) {
+    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val showHideInfoButton: ImageView = itemView.findViewById(R.id.show_hide_info_button)
         private val cardNicknameTextView: TextView = itemView.findViewById(R.id.card_nickname_text_view)
         private val cardNumberTextView: TextView = itemView.findViewById(R.id.card_number_text_view)
@@ -35,7 +37,7 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
 
         private var showSensitiveInfo: Boolean = false
 
-        fun bind(card: Card) {
+        fun bind(card: Card, position: Int) {
             cardNicknameTextView.text = card.name
             cardNumberTextView.text = if (showSensitiveInfo) card.cardNumber else maskCardNumber(card.cardNumber)
             cardNameTextView.text = card.cardHolderName
@@ -51,12 +53,12 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
 
             cardView.setCardBackgroundColor(Color.parseColor(colorHex))
 
-            itemView.setOnClickListener { onCardClick(it, card) }
+            itemView.setOnClickListener { onCardClick(it, card, position) }
 
             showHideInfoButton.setOnClickListener {
                 showSensitiveInfo = !showSensitiveInfo
                 showHideInfoButton.setImageResource(if (showSensitiveInfo) R.drawable.ic_visibility_off else R.drawable.ic_visibility)
-                bind(card)
+                bind(card, position)
             }
         }
 

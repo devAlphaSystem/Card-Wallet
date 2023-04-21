@@ -18,6 +18,7 @@
         tools:ignore="HardcodedText, Autofill, TextFields">
 
         <TextView
+            android:id="@+id/add_card_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -32,9 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="16dp"
             android:hint="@string/card_name_hint"
             android:inputType="text"
+            android:textSize="16sp"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <EditText
@@ -42,9 +43,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="16dp"
             android:hint="@string/card_number_hint"
             android:inputType="number"
+            android:textSize="16sp"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <EditText
@@ -52,9 +53,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="16dp"
             android:hint="@string/card_holder_hint"
             android:inputType="text"
+            android:textSize="16sp"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <EditText
@@ -62,9 +63,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="16dp"
             android:hint="@string/card_exp_date_hint"
             android:inputType="number"
+            android:textSize="16sp"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <EditText
@@ -72,9 +73,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="16dp"
             android:hint="@string/card_cvv_hint"
             android:inputType="number"
+            android:textSize="16sp"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <EditText
@@ -82,9 +83,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textSize="16dp"
             android:hint="@string/card_password_hint"
             android:inputType="numberPassword"
+            android:textSize="16sp"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <Spinner

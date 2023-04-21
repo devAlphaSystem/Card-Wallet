@@ -43,6 +43,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val editCardLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK && result.data != null) {
+            val editedCard: Card? = result.data?.extras?.getParcelable(AddCardActivity.EXTRA_CARD)
+            val editedCardPosition = result.data?.extras?.getInt(AddCardActivity.EXTRA_CARD_POSITION)
+            if (editedCard != null && editedCardPosition != null) {
+                cards[editedCardPosition] = editedCard
+                cardsAdapter.notifyItemChanged(editedCardPosition)
+                saveCards()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -51,8 +63,8 @@ class MainActivity : AppCompatActivity() {
         cards = loadCards()
 
         cardsRecyclerView = findViewById(R.id.cards_recycler_view)
-        cardsAdapter = CardsAdapter(cards) { view, card ->
-            showCardOptions(view, card)
+        cardsAdapter = CardsAdapter(cards) { view, card, position ->
+            showCardOptions(view, card, position)
         }
         cardsRecyclerView.layoutManager = LinearLayoutManager(this)
         cardsRecyclerView.adapter = cardsAdapter
@@ -68,8 +80,8 @@ class MainActivity : AppCompatActivity() {
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
             cards = loadCards()
-            cardsAdapter = CardsAdapter(cards) { view, card ->
-                showCardOptions(view, card)
+            cardsAdapter = CardsAdapter(cards) { view, card, position ->
+                showCardOptions(view, card, position)
             }
             cardsRecyclerView.adapter = cardsAdapter
 
@@ -80,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         updateEmptyCardsMessageVisibility()
     }
 
-    private fun showCardOptions(view: View, card: Card) {
+    private fun showCardOptions(view: View, card: Card, position: Int) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.inflate(R.menu.card_options_menu)
         popupMenu.setOnMenuItemClickListener { menuItem ->
@@ -105,6 +117,11 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.copy_card_password -> {
                     clip = ClipData.newPlainText("Card Password", card.password)
+                }
+
+                R.id.edit_card -> {
+                    editCard(card, position)
+                    return@setOnMenuItemClickListener true
                 }
 
                 R.id.delete_card -> {
@@ -140,6 +157,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         updateEmptyCardsMessageVisibility()
+    }
+
+    private fun editCard(card: Card, position: Int) {
+        val intent = Intent(this, AddCardActivity::class.java)
+        intent.putExtra(AddCardActivity.EXTRA_CARD, card)
+        intent.putExtra(AddCardActivity.EXTRA_CARD_POSITION, position)
+        intent.putExtra(AddCardActivity.EXTRA_IS_EDIT, true)
+        editCardLauncher.launch(intent)
     }
 
     private fun saveCards() {

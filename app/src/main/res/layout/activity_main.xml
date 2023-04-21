@@ -14,9 +14,9 @@
         android:gravity="center"
         android:padding="16dp"
         android:text="Cards will be shown in this area."
-        android:textSize="14sp"
         android:textAllCaps="true"
-        tools:ignore="HardcodedText" />
+        android:textSize="14sp"
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/add_card_fab_content_description"
-        android:src="@drawable/ic_baseline_add_24"
+        android:src="@drawable/ic_baseline_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="ImageContrastCheck" />
