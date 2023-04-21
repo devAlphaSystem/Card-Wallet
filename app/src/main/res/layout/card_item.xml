@@ -9,7 +9,7 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -31,17 +31,17 @@
                 android:id="@+id/card_number_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginVertical="16dp"
                 android:textColor="@color/white"
-                android:textSize="36sp"
+                android:textSize="28sp"
+                android:textStyle="bold"
                 tools:text="**** **** **** 1234" />
 
             <TextView
                 android:id="@+id/card_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="12dp"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -51,6 +51,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-4dp"
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
@@ -63,7 +64,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Valid Thru"
+                        android:text="VALID THRU"
                         android:textColor="@color/background"
                         android:textSize="12sp"
                         tools:ignore="HardcodedText,TextContrastCheck" />
@@ -112,10 +113,24 @@
             android:id="@+id/card_flag_image_view"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             tools:ignore="ContentDescription" />
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/show_hide_info_button"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ic_rounded_white"
+            android:padding="8dp"
+            android:src="@drawable/ic_visibility"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

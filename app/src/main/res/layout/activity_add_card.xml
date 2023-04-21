@@ -24,7 +24,7 @@
             android:gravity="center_horizontal"
             android:text="ADD NEW CARD"
             android:textColor="@color/info_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textSize="16dp"
             android:hint="@string/card_name_hint"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
@@ -41,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textSize="16dp"
             android:hint="@string/card_number_hint"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
@@ -50,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textSize="16dp"
             android:hint="@string/card_holder_hint"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
@@ -59,6 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textSize="16dp"
             android:hint="@string/card_exp_date_hint"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
@@ -68,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textSize="16dp"
             android:hint="@string/card_cvv_hint"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
@@ -77,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textSize="16dp"
             android:hint="@string/card_password_hint"
             android:inputType="numberPassword"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />

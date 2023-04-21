@@ -26,10 +26,11 @@ class SplashActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
         val isBiometricEnabled = sharedPreferences.getBoolean("is_biometric_enabled", false)
+        val userHasDecided = sharedPreferences.getBoolean("user_has_decided", false)
 
-        if (!isBiometricEnabled) {
+        if (!userHasDecided) {
             askUserToEnableBiometric()
-        } else if (isBiometricSupported(this)) {
+        } else if (isBiometricEnabled && isBiometricSupported(this)) {
             authenticateUser()
         } else {
             openMainActivity()
@@ -44,15 +45,17 @@ class SplashActivity : AppCompatActivity() {
     private fun askUserToEnableBiometric() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Enable Biometric Authentication")
-        builder.setMessage("Would you like to enable biometric authentication for added security?")
+        builder.setMessage("Would you like to enable biometric authentication for enhanced security?\n\nThis choice cannot be changed later.")
         builder.setPositiveButton("Yes") { _, _ ->
             val sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
             sharedPreferences.edit().putBoolean("is_biometric_enabled", true).apply()
+            sharedPreferences.edit().putBoolean("user_has_decided", true).apply()
             authenticateUser()
         }
         builder.setNegativeButton("No") { _, _ ->
             val sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
             sharedPreferences.edit().putBoolean("is_biometric_enabled", false).apply()
+            sharedPreferences.edit().putBoolean("user_has_decided", true).apply()
             openMainActivity()
         }
         builder.setCancelable(false)

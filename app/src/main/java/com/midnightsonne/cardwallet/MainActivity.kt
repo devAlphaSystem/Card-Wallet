@@ -10,6 +10,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cardsRecyclerView: RecyclerView
     private lateinit var cardsAdapter: CardsAdapter
     private lateinit var cards: MutableList<Card>
+    private lateinit var emptyCardsMessage: TextView
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             if (card != null) {
                 cards.add(card)
                 cardsAdapter.notifyItemInserted(cards.size - 1)
+                updateEmptyCardsMessageVisibility()
                 saveCards()
             }
         }
@@ -60,6 +63,8 @@ class MainActivity : AppCompatActivity() {
             addCardLauncher.launch(intent)
         }
 
+        emptyCardsMessage = findViewById(R.id.empty_cards_message)
+
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
             cards = loadCards()
@@ -71,6 +76,8 @@ class MainActivity : AppCompatActivity() {
             swipeRefreshLayout.isRefreshing = false
             Toast.makeText(this, "Cards refreshed", Toast.LENGTH_SHORT).show()
         }
+
+        updateEmptyCardsMessageVisibility()
     }
 
     private fun showCardOptions(view: View, card: Card) {
@@ -114,14 +121,25 @@ class MainActivity : AppCompatActivity() {
         popupMenu.show()
     }
 
+    private fun updateEmptyCardsMessageVisibility() {
+        if (cards.isEmpty()) {
+            emptyCardsMessage.visibility = View.VISIBLE
+        } else {
+            emptyCardsMessage.visibility = View.GONE
+        }
+    }
+
     private fun deleteCard(card: Card) {
         val cardPosition = cards.indexOf(card)
+
         if (cardPosition != -1) {
             cards.removeAt(cardPosition)
             cardsAdapter.notifyItemRemoved(cardPosition)
             saveCards()
             Toast.makeText(this, "Card deleted", Toast.LENGTH_SHORT).show()
         }
+
+        updateEmptyCardsMessageVisibility()
     }
 
     private fun saveCards() {

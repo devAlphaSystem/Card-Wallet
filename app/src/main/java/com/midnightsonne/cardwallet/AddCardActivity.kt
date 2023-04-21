@@ -2,6 +2,7 @@ package com.midnightsonne.cardwallet
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -13,8 +14,6 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class AddCardActivity : AppCompatActivity() {
     companion object {
@@ -124,22 +123,12 @@ class AddCardActivity : AppCompatActivity() {
             val card = Card(
                 cardNameEditText.text.toString(), cardNumberEditText.text.toString(), expirationDateEditText.text.toString(), cvvEditText.text.toString(), cardHolderNameEditText.text.toString(), flagSpinner.selectedItem.toString(), cardColorSpinner.selectedItem.toString(), passwordEditText.text.toString()
             )
-            saveCard(card)
 
+            val resultIntent = Intent()
+            resultIntent.putExtra(EXTRA_CARD, card)
+            setResult(RESULT_OK, resultIntent)
             Toast.makeText(this, "Card added successfully!", Toast.LENGTH_SHORT).show()
             finish()
         }
-    }
-
-    private fun saveCard(card: Card) {
-        val gson = Gson()
-        val json = sharedPreferences.getString(getString(R.string.cards_list_key), "")
-        val type = object : TypeToken<MutableList<Card>>() {}.type
-        val cards: MutableList<Card> = gson.fromJson(json, type) ?: mutableListOf()
-        cards.add(card)
-        val editor = sharedPreferences.edit()
-        val updatedJson = gson.toJson(cards)
-        editor.putString(getString(R.string.cards_list_key), updatedJson)
-        editor.apply()
     }
 }

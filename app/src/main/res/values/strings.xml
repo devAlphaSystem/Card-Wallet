@@ -5,14 +5,14 @@
     <string name="shared_preferences_file_key">card_wallet_shared_preferences</string>
     <string name="cards_list_key">cards_list</string>
 
-    <string name="card_name_hint">Card Nickname</string>
-    <string name="card_number_hint">Card Number</string>
-    <string name="card_holder_hint">Card Holder</string>
-    <string name="card_exp_date_hint">Expiration Date</string>
+    <string name="card_name_hint">CARD NICKNAME</string>
+    <string name="card_number_hint">CARD NUMBER</string>
+    <string name="card_holder_hint">CARD HOLDER</string>
+    <string name="card_exp_date_hint">EXPIRATION DATE</string>
     <string name="card_cvv_hint">CVV</string>
-    <string name="card_password_hint">Card Password</string>
-    <string name="add_card_button_text">Add Card</string>
+    <string name="card_password_hint">CARD PASSWORD</string>
+    <string name="add_card_button_text">ADD CARD</string>
 
-    <string name="add_card_fab_content_description">Add a new card</string>
+    <string name="add_card_fab_content_description">ADD A NEW CARD</string>
 
 </resources>

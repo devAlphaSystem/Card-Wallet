@@ -11,14 +11,5 @@
     <color name="background">#F2F2F2</color>
     <color name="sec_background">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="gray">#9E9E9E</color>
-    <color name="light_gray">#E0E0E0</color>
-    <color name="purple">#8952f0</color>
-    <color name="green">#4CAF50</color>
-    <color name="red">#F44336</color>
-    <color name="yellow">#FFEB3B</color>
-    <color name="dark_green">#005f64</color>
-    <color name="percentage">#F4F4F4</color>
 
 </resources>
