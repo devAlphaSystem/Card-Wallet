@@ -10,17 +10,18 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
-class CardsAdapter(
-    private val cards: List<Card>, private val onCardClick: (View, Card, Int) -> Unit
-) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
+@SuppressLint("DiscouragedApi")
+class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View, Card, Int) -> Unit) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
+
         return CardViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val currentItem = cards[position]
+
         holder.bind(currentItem, position)
     }
 
@@ -43,6 +44,7 @@ class CardsAdapter(
             cardNameTextView.text = card.cardHolderName
             cardValidTextView.text = if (showSensitiveInfo) card.expirationDate else maskExpirationDate(card.expirationDate)
             cardCvvTextView.text = if (showSensitiveInfo) card.cvv else maskCvv(card.cvv)
+
             setCardFlagDrawableResource(card.flag)
 
             val colorName = card.cardColor
@@ -57,17 +59,20 @@ class CardsAdapter(
 
             showHideInfoButton.setOnClickListener {
                 showSensitiveInfo = !showSensitiveInfo
+
                 showHideInfoButton.setImageResource(if (showSensitiveInfo) R.drawable.ic_visibility_off else R.drawable.ic_visibility)
+
                 bind(card, position)
             }
         }
 
-        @SuppressLint("DiscouragedApi")
         private fun setCardFlagDrawableResource(flag: String) {
             val formattedFlag = flag.lowercase().replace(" ", "_")
+
             val flagResourceId = itemView.context.resources.getIdentifier(
                 "ic_${formattedFlag}_logo", "drawable", itemView.context.packageName
             )
+
             if (flagResourceId != 0) {
                 itemView.findViewById<ImageView>(R.id.card_flag_image_view).setImageResource(flagResourceId)
             }
@@ -84,6 +89,7 @@ class CardsAdapter(
 
     private fun maskExpirationDate(expirationDate: String): String {
         val parts = expirationDate.split("/")
+
         return if (parts.size == 2) {
             "**/${parts[1]}"
         } else {

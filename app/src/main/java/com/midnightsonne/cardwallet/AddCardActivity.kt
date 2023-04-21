@@ -18,7 +18,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
+@SuppressLint("SetTextI18n")
 class AddCardActivity : AppCompatActivity() {
+
     companion object {
         const val EXTRA_CARD = "com.midnightsonne.cardwallet.EXTRA_CARD"
         const val EXTRA_CARD_POSITION = "com.midnightsonne.cardwallet.EXTRA_CARD_POSITION"
@@ -27,7 +29,6 @@ class AddCardActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_card)
@@ -43,11 +44,15 @@ class AddCardActivity : AppCompatActivity() {
         val flagSpinner: Spinner = findViewById(R.id.flag_spinner)
         val cardColorSpinner: Spinner = findViewById(R.id.card_color_spinner)
 
-        val flagsAdapter = ArrayAdapter.createFromResource(this, R.array.flags, android.R.layout.simple_spinner_item)
+        val flagsAdapter = ArrayAdapter.createFromResource(
+            this, R.array.flags, android.R.layout.simple_spinner_item
+        )
         flagsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         flagSpinner.adapter = flagsAdapter
 
-        val cardColorsAdapter = ArrayAdapter.createFromResource(this, R.array.card_colors, android.R.layout.simple_spinner_item)
+        val cardColorsAdapter = ArrayAdapter.createFromResource(
+            this, R.array.card_colors, android.R.layout.simple_spinner_item
+        )
         cardColorsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cardColorSpinner.adapter = cardColorsAdapter
 
@@ -56,15 +61,16 @@ class AddCardActivity : AppCompatActivity() {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            @SuppressLint("SetTextI18n")
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (isUpdating) {
                     isUpdating = false
+
                     return
                 }
 
                 if (before == 0 && count == 1 && (start + 1) % 5 == 0) {
                     isUpdating = true
+
                     cardNumberEditText.setText(s.toString().substring(0, start) + " " + s.toString().substring(start, start + count))
                     cardNumberEditText.setSelection(cardNumberEditText.text.length)
                 }
@@ -78,7 +84,6 @@ class AddCardActivity : AppCompatActivity() {
         expirationDateEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            @SuppressLint("SetTextI18n")
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (before == 0 && count == 1 && start == 1) {
                     expirationDateEditText.setText(s.toString() + "/")
@@ -100,8 +105,10 @@ class AddCardActivity : AppCompatActivity() {
         val addCardText: TextView = findViewById(R.id.add_card_text_view)
 
         val isEdit = intent.getBooleanExtra(EXTRA_IS_EDIT, false)
+
         if (isEdit) {
             val cardToEdit: Card? = intent.getParcelableExtra(EXTRA_CARD)
+
             if (cardToEdit != null) {
                 cardNameEditText.setText(cardToEdit.name)
                 cardNumberEditText.setText(cardToEdit.cardNumber)
@@ -113,7 +120,9 @@ class AddCardActivity : AppCompatActivity() {
                 flagSpinner.setSelection(flagsAdapter.getPosition(cardToEdit.flag))
                 cardColorSpinner.setSelection(cardColorsAdapter.getPosition(cardToEdit.cardColor))
             }
+
             addButton.text = "Update Card"
+
             addCardText.text = "Update Card"
         }
 
@@ -148,17 +157,23 @@ class AddCardActivity : AppCompatActivity() {
             )
 
             val resultIntent = Intent()
+
             resultIntent.putExtra(EXTRA_CARD, card)
+
             if (isEdit) {
                 val cardPosition: Int = intent.getIntExtra(EXTRA_CARD_POSITION, -1)
+
                 if (cardPosition != -1) {
                     resultIntent.putExtra(EXTRA_CARD_POSITION, cardPosition)
                 }
             }
 
             setResult(RESULT_OK, resultIntent)
+
             val actionMessage = if (isEdit) "Card updated successfully!" else "Card added successfully!"
+
             Toast.makeText(this, actionMessage, Toast.LENGTH_SHORT).show()
+
             finish()
         }
     }

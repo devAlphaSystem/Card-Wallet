@@ -34,10 +34,14 @@ class MainActivity : AppCompatActivity() {
     private val addCardLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK && result.data != null) {
             val card: Card? = result.data?.extras?.getParcelable(AddCardActivity.EXTRA_CARD)
+
             if (card != null) {
                 cards.add(card)
+
                 cardsAdapter.notifyItemInserted(cards.size - 1)
+
                 updateEmptyCardsMessageVisibility()
+
                 saveCards()
             }
         }
@@ -46,10 +50,14 @@ class MainActivity : AppCompatActivity() {
     private val editCardLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK && result.data != null) {
             val editedCard: Card? = result.data?.extras?.getParcelable(AddCardActivity.EXTRA_CARD)
+
             val editedCardPosition = result.data?.extras?.getInt(AddCardActivity.EXTRA_CARD_POSITION)
+
             if (editedCard != null && editedCardPosition != null) {
                 cards[editedCardPosition] = editedCard
+
                 cardsAdapter.notifyItemChanged(editedCardPosition)
+
                 saveCards()
             }
         }
@@ -60,13 +68,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
+
         cards = loadCards()
 
         cardsRecyclerView = findViewById(R.id.cards_recycler_view)
-        cardsAdapter = CardsAdapter(cards) { view, card, position ->
-            showCardOptions(view, card, position)
-        }
+
+        cardsAdapter = CardsAdapter(cards) { view, card, position -> showCardOptions(view, card, position) }
+
         cardsRecyclerView.layoutManager = LinearLayoutManager(this)
+
         cardsRecyclerView.adapter = cardsAdapter
 
         val addCardFab: FloatingActionButton = findViewById(R.id.add_card_fab)
@@ -80,9 +90,7 @@ class MainActivity : AppCompatActivity() {
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
             cards = loadCards()
-            cardsAdapter = CardsAdapter(cards) { view, card, position ->
-                showCardOptions(view, card, position)
-            }
+            cardsAdapter = CardsAdapter(cards) { view, card, position -> showCardOptions(view, card, position) }
             cardsRecyclerView.adapter = cardsAdapter
 
             swipeRefreshLayout.isRefreshing = false
@@ -97,7 +105,9 @@ class MainActivity : AppCompatActivity() {
         popupMenu.inflate(R.menu.card_options_menu)
         popupMenu.setOnMenuItemClickListener { menuItem ->
             val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
             val clip: ClipData
+
             when (menuItem.itemId) {
                 R.id.copy_card_number -> {
                     clip = ClipData.newPlainText("Card Number", card.cardNumber)
@@ -121,20 +131,26 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.edit_card -> {
                     editCard(card, position)
+
                     return@setOnMenuItemClickListener true
                 }
 
                 R.id.delete_card -> {
                     deleteCard(card)
+
                     return@setOnMenuItemClickListener true
                 }
 
                 else -> return@setOnMenuItemClickListener false
             }
+
             clipboardManager.setPrimaryClip(clip)
+
             Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+
             true
         }
+
         popupMenu.show()
     }
 
@@ -151,8 +167,11 @@ class MainActivity : AppCompatActivity() {
 
         if (cardPosition != -1) {
             cards.removeAt(cardPosition)
+
             cardsAdapter.notifyItemRemoved(cardPosition)
+
             saveCards()
+
             Toast.makeText(this, "Card deleted", Toast.LENGTH_SHORT).show()
         }
 
@@ -164,21 +183,28 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(AddCardActivity.EXTRA_CARD, card)
         intent.putExtra(AddCardActivity.EXTRA_CARD_POSITION, position)
         intent.putExtra(AddCardActivity.EXTRA_IS_EDIT, true)
+
         editCardLauncher.launch(intent)
     }
 
     private fun saveCards() {
         val editor = sharedPreferences.edit()
+
         val gson = Gson()
+
         val json = gson.toJson(cards)
+
         editor.putString(getString(R.string.cards_list_key), json)
         editor.apply()
     }
 
     private fun loadCards(): MutableList<Card> {
         val gson = Gson()
+
         val json = sharedPreferences.getString(getString(R.string.cards_list_key), "")
+
         val type = object : TypeToken<List<Card>>() {}.type
+
         return gson.fromJson(json, type) ?: mutableListOf()
     }
 }
