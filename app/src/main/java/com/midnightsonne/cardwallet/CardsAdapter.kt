@@ -1,6 +1,7 @@
 package com.midnightsonne.cardwallet
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +21,18 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val currentItem = cards[position]
+        val card = cards[position]
+        holder.bind(card, position)
 
-        holder.bind(currentItem, position)
+        if (position == cards.size - 1) {
+            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            layoutParams.bottomMargin = 72.dpToPx(holder.itemView.context)
+            holder.itemView.layoutParams = layoutParams
+        } else {
+            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            layoutParams.bottomMargin = 0
+            holder.itemView.layoutParams = layoutParams
+        }
     }
 
     override fun getItemCount() = cards.size
@@ -60,7 +70,7 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
             showHideInfoButton.setOnClickListener {
                 showSensitiveInfo = !showSensitiveInfo
 
-                showHideInfoButton.setImageResource(if (showSensitiveInfo) R.drawable.ic_visibility_off else R.drawable.ic_visibility)
+                showHideInfoButton.setImageResource(if (showSensitiveInfo) R.drawable.in_icon_visibility_off else R.drawable.in_icon_visibility)
 
                 bind(card, position)
             }
@@ -77,6 +87,12 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
                 itemView.findViewById<ImageView>(R.id.card_flag_image_view).setImageResource(flagResourceId)
             }
         }
+    }
+
+    private fun Int.dpToPx(context: Context): Int {
+        val density = context.resources.displayMetrics.density
+
+        return (this * density).toInt()
     }
 
     private fun maskCardNumber(cardNumber: String): String {

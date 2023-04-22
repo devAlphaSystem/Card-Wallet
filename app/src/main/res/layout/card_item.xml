@@ -31,7 +31,7 @@
                 android:id="@+id/card_number_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="16dp"
+                android:layout_marginVertical="18dp"
                 android:textColor="@color/white"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -128,7 +128,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/ic_rounded_white"
             android:padding="8dp"
-            android:src="@drawable/ic_visibility"
+            android:src="@drawable/in_icon_visibility"
             tools:ignore="ContentDescription" />
 
     </RelativeLayout>

@@ -2,14 +2,21 @@
 
 package com.midnightsonne.cardwallet
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.PopupMenu
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -30,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var emptyCardsMessage: TextView
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
+    private lateinit var backgroundDimmer: View
 
     private val addCardLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK && result.data != null) {
@@ -65,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main_dimmer)
 
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
 
@@ -73,15 +81,16 @@ class MainActivity : AppCompatActivity() {
 
         cardsRecyclerView = findViewById(R.id.cards_recycler_view)
 
-        cardsAdapter = CardsAdapter(cards) { view, card, position -> showCardOptions(view, card, position) }
+        cardsAdapter = CardsAdapter(cards) { _, card, position -> showCardOptions(card, position) }
 
         cardsRecyclerView.layoutManager = LinearLayoutManager(this)
 
         cardsRecyclerView.adapter = cardsAdapter
 
-        val addCardFab: FloatingActionButton = findViewById(R.id.add_card_fab)
+        val addCardFab: ImageView = findViewById(R.id.add_card_fab)
         addCardFab.setOnClickListener {
             val intent = Intent(this, AddCardActivity::class.java)
+
             addCardLauncher.launch(intent)
         }
 
@@ -90,68 +99,126 @@ class MainActivity : AppCompatActivity() {
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
             cards = loadCards()
-            cardsAdapter = CardsAdapter(cards) { view, card, position -> showCardOptions(view, card, position) }
+            cardsAdapter = CardsAdapter(cards) { _, card, position -> showCardOptions(card, position) }
             cardsRecyclerView.adapter = cardsAdapter
 
             swipeRefreshLayout.isRefreshing = false
             Toast.makeText(this, "Cards refreshed", Toast.LENGTH_SHORT).show()
         }
 
+        val walletInfoButton: ImageView = findViewById(R.id.wallet_info)
+        walletInfoButton.setOnClickListener {
+            showWalletInfoDialog()
+        }
+
+        backgroundDimmer = findViewById(R.id.background_dimmer)
+
         updateEmptyCardsMessageVisibility()
     }
 
-    private fun showCardOptions(view: View, card: Card, position: Int) {
-        val popupMenu = PopupMenu(this, view)
-        popupMenu.inflate(R.menu.card_options_menu)
-        popupMenu.setOnMenuItemClickListener { menuItem ->
+    private fun showCardOptions(card: Card, position: Int) {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.card_options_dialog)
+
+        dialog.findViewById<TextView>(R.id.copy_card_number).setOnClickListener {
             val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-            val clip: ClipData
-
-            when (menuItem.itemId) {
-                R.id.copy_card_number -> {
-                    clip = ClipData.newPlainText("Card Number", card.cardNumber)
-                }
-
-                R.id.copy_card_holder -> {
-                    clip = ClipData.newPlainText("Card User Name", card.cardHolderName)
-                }
-
-                R.id.copy_card_exp_date -> {
-                    clip = ClipData.newPlainText("Card Exp Date", card.expirationDate)
-                }
-
-                R.id.copy_card_cvv -> {
-                    clip = ClipData.newPlainText("Card CVV", card.cvv)
-                }
-
-                R.id.copy_card_password -> {
-                    clip = ClipData.newPlainText("Card Password", card.password)
-                }
-
-                R.id.edit_card -> {
-                    editCard(card, position)
-
-                    return@setOnMenuItemClickListener true
-                }
-
-                R.id.delete_card -> {
-                    deleteCard(card)
-
-                    return@setOnMenuItemClickListener true
-                }
-
-                else -> return@setOnMenuItemClickListener false
-            }
-
+            val clip = ClipData.newPlainText("Card Number", card.cardNumber)
             clipboardManager.setPrimaryClip(clip)
-
             Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show()
-
-            true
+            dialog.dismiss()
         }
 
-        popupMenu.show()
+        dialog.findViewById<TextView>(R.id.copy_card_holder).setOnClickListener {
+            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Card Holder Name", card.cardHolderName)
+            clipboardManager.setPrimaryClip(clip)
+            Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<TextView>(R.id.copy_card_exp_date).setOnClickListener {
+            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Card Expiration Date", card.expirationDate)
+            clipboardManager.setPrimaryClip(clip)
+            Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<TextView>(R.id.copy_card_cvv).setOnClickListener {
+            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Card CVV", card.cvv)
+            clipboardManager.setPrimaryClip(clip)
+            Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<TextView>(R.id.copy_card_password).setOnClickListener {
+            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Card Password", card.password)
+            clipboardManager.setPrimaryClip(clip)
+            Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<TextView>(R.id.edit_card).setOnClickListener {
+            editCard(card, position)
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<TextView>(R.id.delete_card).setOnClickListener {
+            deleteCard(card)
+            dialog.dismiss()
+        }
+
+        val window = dialog.window
+        val layoutParams = window?.attributes
+
+        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        dialog.window?.setLayout(width, RecyclerView.LayoutParams.WRAP_CONTENT)
+
+        layoutParams?.gravity = Gravity.CENTER
+        window?.attributes = layoutParams
+
+        showDimmedBackground()
+        dialog.setOnDismissListener {
+            hideDimmedBackground()
+        }
+
+        dialog.show()
+    }
+
+    private fun showWalletInfoDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Security Information")
+
+        val messageView = LayoutInflater.from(this).inflate(R.layout.dialog_security_info, null)
+        builder.setView(messageView)
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    private fun showDimmedBackground() {
+        val fadeInAnimator = ObjectAnimator.ofFloat(backgroundDimmer, View.ALPHA, 0f, 1f)
+        fadeInAnimator.duration = 250
+        fadeInAnimator.start()
+
+        backgroundDimmer.visibility = View.VISIBLE
+    }
+
+    private fun hideDimmedBackground() {
+        val fadeOutAnimator = ObjectAnimator.ofFloat(backgroundDimmer, View.ALPHA, 1f, 0f)
+        fadeOutAnimator.duration = 250
+        fadeOutAnimator.start()
+        fadeOutAnimator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                backgroundDimmer.visibility = View.INVISIBLE
+            }
+        })
     }
 
     private fun updateEmptyCardsMessageVisibility() {

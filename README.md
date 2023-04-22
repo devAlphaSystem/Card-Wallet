@@ -12,6 +12,13 @@ The app offers the following features for card management:
     Secure storage of card information
     Hide and show sensitive card information (card number, expiration date, CVV) on demand
 
+## - Security
+
+    All card information is stored locally on the device, ensuring maximum security.
+    The app does not connect to the web, eliminating the risk of data leaks.
+    Open source code allows for easy verification of the app's security.
+    Biometric authentication for devices that support it.
+
 ## - Requirements
 
     Android 8.0 or higher
