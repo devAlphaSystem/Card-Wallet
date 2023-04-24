@@ -7,35 +7,21 @@
         <item>Elo</item>
         <item>Hipercard</item>
         <item>American Express</item>
-        <item>Others</item>
     </string-array>
 
     <string-array name="card_colors">
         <item>Black</item>
         <item>Silver</item>
-        <item>Dark Purple</item>
         <item>Purple</item>
-        <item>Dark Red</item>
         <item>Red</item>
-        <item>Dark Blue</item>
         <item>Blue</item>
         <item>Orange</item>
-        <item>Yellow</item>
         <item>Green</item>
-    </string-array>
-
-    <string-array name="card_colors_hex">
-        <item name="Black">#212121</item>
-        <item name="Silver">#C0C0C0</item>
-        <item name="Dark Purple">#800080</item>
-        <item name="Purple">#A23FCF</item>
-        <item name="Dark Red">#8B0000</item>
-        <item name="Red">#FF0000</item>
-        <item name="Dark Blue">#00008B</item>
-        <item name="Blue">#0000FF</item>
-        <item name="Orange">#FF4E00</item>
-        <item name="Yellow">#FFA500</item>
-        <item name="Green">#008000</item>
+        <item>Yellow</item>
+        <item>Brown</item>
+        <item>Pink</item>
+        <item>Cyan</item>
+        <item>Teal</item>
     </string-array>
 
 </resources>

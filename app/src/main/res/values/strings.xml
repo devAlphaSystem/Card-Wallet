@@ -8,9 +8,9 @@
     <string name="card_name_hint">CARD NICKNAME</string>
     <string name="card_number_hint">CARD NUMBER</string>
     <string name="card_holder_hint">CARD HOLDER</string>
-    <string name="card_exp_date_hint">EXPIRATION DATE</string>
+    <string name="card_exp_date_hint">EXP DATE</string>
     <string name="card_cvv_hint">CVV</string>
-    <string name="card_password_hint">CARD PASSWORD</string>
+    <string name="card_password_hint">PASSWORD</string>
     <string name="add_card_button_text">ADD CARD</string>
 
     <string name="add_card_fab_content_description">ADD A NEW CARD</string>

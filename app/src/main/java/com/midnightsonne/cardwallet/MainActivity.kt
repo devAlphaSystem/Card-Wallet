@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cardsRecyclerView: RecyclerView
     private lateinit var cardsAdapter: CardsAdapter
     private lateinit var cards: MutableList<Card>
-    private lateinit var emptyCardsMessage: TextView
+    private lateinit var emptyCardsMessage: MaterialCardView
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 

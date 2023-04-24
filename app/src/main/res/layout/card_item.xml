@@ -126,9 +126,9 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/ic_rounded_white"
+            android:background="@drawable/shape_rounded_360"
             android:padding="8dp"
-            android:src="@drawable/in_icon_visibility"
+            android:src="@drawable/icon_visibility_on"
             tools:ignore="ContentDescription" />
 
     </RelativeLayout>

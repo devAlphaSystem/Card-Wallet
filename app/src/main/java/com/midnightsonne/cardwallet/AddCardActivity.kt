@@ -10,13 +10,13 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 @SuppressLint("SetTextI18n")
 class AddCardActivity : AppCompatActivity() {
@@ -41,20 +41,37 @@ class AddCardActivity : AppCompatActivity() {
         val cvvEditText: EditText = findViewById(R.id.cvv_edit_text)
         val cardHolderNameEditText: EditText = findViewById(R.id.card_holder_name_edit_text)
         val passwordEditText: EditText = findViewById(R.id.password_edit_text)
-        val flagSpinner: Spinner = findViewById(R.id.flag_spinner)
-        val cardColorSpinner: Spinner = findViewById(R.id.card_color_spinner)
 
-        val flagsAdapter = ArrayAdapter.createFromResource(
-            this, R.array.flags, android.R.layout.simple_spinner_item
+        val flagRecyclerView = findViewById<RecyclerView>(R.id.flag_recycler_view)
+        val flags = listOf(
+            R.drawable.flag_mastercard,
+            R.drawable.flag_visa,
+            R.drawable.flag_elo,
+            R.drawable.flag_hipercard,
+            R.drawable.flag_american_express
         )
-        flagsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        flagSpinner.adapter = flagsAdapter
+        var selectedFlag: Int? = null
+        val flagAdapter = FlagAdapter(flags) { flag ->
+            selectedFlag = flag
+        }
 
-        val cardColorsAdapter = ArrayAdapter.createFromResource(
-            this, R.array.card_colors, android.R.layout.simple_spinner_item
+        val flagLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        flagRecyclerView.layoutManager = flagLayoutManager
+        flagRecyclerView.adapter = flagAdapter
+
+        val cardColorRecyclerView = findViewById<RecyclerView>(R.id.card_color_recycler_view)
+        val cardColors = listOf(
+            R.drawable.card_black_20, R.drawable.card_silver_20, R.drawable.card_purple_20, R.drawable.card_red_20, R.drawable.card_blue_20, R.drawable.card_orange_20, R.drawable.card_green_20, R.drawable.card_yellow_20, R.drawable.card_brown_20, R.drawable.card_pink_20, R.drawable.card_cyan_20, R.drawable.card_teal_20
         )
-        cardColorsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        cardColorSpinner.adapter = cardColorsAdapter
+        var selectedCardColor: Int? = null
+        val cardColorAdapter = CardColorAdapter(cardColors) { cardColor ->
+            selectedCardColor = cardColor
+        }
+
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        cardColorRecyclerView.layoutManager = layoutManager
+
+        cardColorRecyclerView.adapter = cardColorAdapter
 
         cardNumberEditText.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
@@ -117,8 +134,10 @@ class AddCardActivity : AppCompatActivity() {
                 cardHolderNameEditText.setText(cardToEdit.cardHolderName)
                 passwordEditText.setText(cardToEdit.password)
 
-                flagSpinner.setSelection(flagsAdapter.getPosition(cardToEdit.flag))
-                cardColorSpinner.setSelection(cardColorsAdapter.getPosition(cardToEdit.cardColor))
+                selectedFlag = cardToEdit.flag
+                selectedFlag?.let { flagAdapter.setSelectedFlag(it) }
+                selectedCardColor = cardToEdit.cardColor
+                selectedCardColor?.let { cardColorAdapter.updateSelectedCardColor(it) }
             }
 
             addButton.text = "Update Card"
@@ -153,7 +172,7 @@ class AddCardActivity : AppCompatActivity() {
             }
 
             val card = Card(
-                cardNameEditText.text.toString(), cardNumberEditText.text.toString(), expirationDateEditText.text.toString(), cvvEditText.text.toString(), cardHolderNameEditText.text.toString(), flagSpinner.selectedItem.toString(), cardColorSpinner.selectedItem.toString(), passwordEditText.text.toString()
+                cardNameEditText.text.toString(), cardNumberEditText.text.toString(), expirationDateEditText.text.toString(), cvvEditText.text.toString(), cardHolderNameEditText.text.toString(), (selectedFlag ?: flags.first()), (selectedCardColor ?: cardColors.first()), passwordEditText.text.toString()
             )
 
             val resultIntent = Intent()

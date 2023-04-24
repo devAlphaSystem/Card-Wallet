@@ -1,8 +1,6 @@
 package com.midnightsonne.cardwallet
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,15 +22,9 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
         val card = cards[position]
         holder.bind(card, position)
 
-        if (position == cards.size - 1) {
-            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
-            layoutParams.bottomMargin = 72.dpToPx(holder.itemView.context)
-            holder.itemView.layoutParams = layoutParams
-        } else {
-            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
-            layoutParams.bottomMargin = 0
-            holder.itemView.layoutParams = layoutParams
-        }
+        val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+        layoutParams.bottomMargin = 0
+        holder.itemView.layoutParams = layoutParams
     }
 
     override fun getItemCount() = cards.size
@@ -57,42 +49,24 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
 
             setCardFlagDrawableResource(card.flag)
 
-            val colorName = card.cardColor
-            val colorArray = itemView.context.resources.getStringArray(R.array.card_colors)
-            val colorHexArray = itemView.context.resources.getStringArray(R.array.card_colors_hex)
-            val colorIndex = colorArray.indexOf(colorName)
-            val colorHex = if (colorIndex >= 0) colorHexArray[colorIndex] else ""
-
-            cardView.setCardBackgroundColor(Color.parseColor(colorHex))
+            cardView.setBackgroundResource(card.cardColor)
 
             itemView.setOnClickListener { onCardClick(it, card, position) }
 
             showHideInfoButton.setOnClickListener {
                 showSensitiveInfo = !showSensitiveInfo
 
-                showHideInfoButton.setImageResource(if (showSensitiveInfo) R.drawable.in_icon_visibility_off else R.drawable.in_icon_visibility)
+                showHideInfoButton.setImageResource(if (showSensitiveInfo) R.drawable.icon_visibility_off else R.drawable.icon_visibility_on)
 
                 bind(card, position)
             }
         }
 
-        private fun setCardFlagDrawableResource(flag: String) {
-            val formattedFlag = flag.lowercase().replace(" ", "_")
-
-            val flagResourceId = itemView.context.resources.getIdentifier(
-                "ic_${formattedFlag}_logo", "drawable", itemView.context.packageName
-            )
-
+        private fun setCardFlagDrawableResource(flagResourceId: Int) {
             if (flagResourceId != 0) {
                 itemView.findViewById<ImageView>(R.id.card_flag_image_view).setImageResource(flagResourceId)
             }
         }
-    }
-
-    private fun Int.dpToPx(context: Context): Int {
-        val density = context.resources.displayMetrics.density
-
-        return (this * density).toInt()
     }
 
     private fun maskCardNumber(cardNumber: String): String {

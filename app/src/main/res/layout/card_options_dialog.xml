@@ -14,11 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/shape_rounded_all_6"
         android:padding="8dp"
-        android:text="Copy Card Number"
+        android:text="Copy Number"
         android:textColor="@android:color/black"
-        app:drawableEndCompat="@drawable/in_icon_copy"
+        app:drawableEndCompat="@drawable/icon_copy"
         tools:ignore="HardcodedText" />
 
     <TextView
@@ -26,11 +26,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/shape_rounded_all_6"
         android:padding="8dp"
-        android:text="Copy Card Holder Name"
+        android:text="Copy Holder Name"
         android:textColor="@android:color/black"
-        app:drawableEndCompat="@drawable/in_icon_copy"
+        app:drawableEndCompat="@drawable/icon_copy"
         tools:ignore="HardcodedText" />
 
     <TextView
@@ -38,11 +38,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/shape_rounded_all_6"
         android:padding="8dp"
-        android:text="Copy Card Expiration Date"
+        android:text="Copy Expiration Date"
         android:textColor="@android:color/black"
-        app:drawableEndCompat="@drawable/in_icon_copy"
+        app:drawableEndCompat="@drawable/icon_copy"
         tools:ignore="HardcodedText" />
 
     <TextView
@@ -50,11 +50,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/shape_rounded_all_6"
         android:padding="8dp"
-        android:text="Copy Card CVV"
+        android:text="Copy CVV"
         android:textColor="@android:color/black"
-        app:drawableEndCompat="@drawable/in_icon_copy"
+        app:drawableEndCompat="@drawable/icon_copy"
         tools:ignore="HardcodedText" />
 
     <TextView
@@ -62,11 +62,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/shape_rounded_all_6"
         android:padding="8dp"
-        android:text="Copy Card Password"
+        android:text="Copy Password"
         android:textColor="@android:color/black"
-        app:drawableEndCompat="@drawable/in_icon_copy"
+        app:drawableEndCompat="@drawable/icon_copy"
         tools:ignore="HardcodedText" />
 
     <TextView
@@ -74,21 +74,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/shape_rounded_all_6"
         android:padding="8dp"
         android:text="Edit Card"
         android:textColor="@android:color/black"
-        app:drawableEndCompat="@drawable/in_icon_edit"
+        app:drawableEndCompat="@drawable/icon_edit"
         tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/delete_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/shape_rounded_all_6"
         android:padding="8dp"
         android:text="Delete Card"
         android:textColor="@android:color/black"
-        app:drawableEndCompat="@drawable/in_icon_delete"
+        app:drawableEndCompat="@drawable/icon_remove"
         tools:ignore="HardcodedText" />
 </LinearLayout>

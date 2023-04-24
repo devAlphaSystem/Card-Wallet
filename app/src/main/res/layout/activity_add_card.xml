@@ -58,53 +58,75 @@
             android:textSize="16sp"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
-        <EditText
-            android:id="@+id/expiration_date_edit_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/card_exp_date_hint"
-            android:inputType="number"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/expiration_date_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/card_exp_date_hint"
+                android:inputType="number"
+                android:textSize="16sp"
+                tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+            <EditText
+                android:id="@+id/cvv_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:hint="@string/card_cvv_hint"
+                android:inputType="number"
+                android:textSize="16sp"
+                tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+            <EditText
+                android:id="@+id/password_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:hint="@string/card_password_hint"
+                android:inputType="numberPassword"
+                android:textSize="16sp"
+                tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:gravity="center_horizontal"
+            android:text="Card Flag"
             android:textSize="16sp"
-            tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
+            tools:ignore="TextContrastCheck" />
 
-        <EditText
-            android:id="@+id/cvv_edit_text"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/flag_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/card_cvv_hint"
-            android:inputType="number"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:gravity="center_horizontal"
+            android:text="Card Color"
             android:textSize="16sp"
-            tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
+            tools:ignore="TextContrastCheck" />
 
-        <EditText
-            android:id="@+id/password_edit_text"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/card_color_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/card_password_hint"
-            android:inputType="numberPassword"
-            android:textSize="16sp"
-            tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
-
-        <Spinner
-            android:id="@+id/flag_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@color/spinner_background"
-            android:padding="8dp"
-            tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
-
-        <Spinner
-            android:id="@+id/card_color_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@color/spinner_background"
-            android:padding="8dp"
-            tools:ignore="DuplicateSpeakableTextCheck,TouchTargetSizeCheck" />
+            android:layout_marginTop="16dp" />
 
         <Button
             android:id="@+id/add_card_button"
@@ -112,6 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/add_card_button_text"
             android:textColor="@color/white" />
 

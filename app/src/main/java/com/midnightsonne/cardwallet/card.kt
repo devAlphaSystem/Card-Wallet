@@ -10,7 +10,7 @@ data class Card(
     val expirationDate: String,
     val cvv: String,
     val cardHolderName: String,
-    val flag: String,
-    val cardColor: String,
+    val flag: Int,
+    val cardColor: Int,
     val password: String
 ) : Parcelable

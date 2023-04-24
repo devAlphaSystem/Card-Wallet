@@ -7,17 +7,46 @@
     android:background="@color/background"
     tools:context=".MainActivity">
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/empty_cards_message"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.8"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="Cards will be shown in this area."
-        android:textAllCaps="true"
-        android:textSize="14sp"
-        tools:ignore="HardcodedText, TextContrastCheck, VisualLintOverlap,VisualLintOverlap" />
+        android:layout_height="wrap_content"
+        android:layout_margin="22dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="205dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@drawable/card_blank_20" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:alpha="0.8"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Cards will be shown like this."
+                android:textAllCaps="true"
+                android:textColor="@color/info_text"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText,TextContrastCheck" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -31,7 +60,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
-            android:padding="16dp"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="96dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +74,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corners_top"
+        android:background="@drawable/shape_rounded_top_30"
         android:clickable="true"
         android:gravity="center_horizontal"
         android:padding="8dp"
@@ -72,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:src="@drawable/in_icon_info"
+                    android:src="@drawable/icon_info"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -100,7 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:src="@drawable/in_icon_add_circle"
+                    android:src="@drawable/icon_add_circle"
                     tools:ignore="ContentDescription" />
 
                 <TextView
