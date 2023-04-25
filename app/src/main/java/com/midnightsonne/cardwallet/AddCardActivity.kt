@@ -35,6 +35,11 @@ class AddCardActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
 
+        val cancelButton: Button = findViewById(R.id.add_card_cancel)
+        cancelButton.setOnClickListener {
+            finish()
+        }
+
         val cardNameEditText: EditText = findViewById(R.id.card_name_edit_text)
         val cardNumberEditText: EditText = findViewById(R.id.card_number_edit_text)
         val expirationDateEditText: EditText = findViewById(R.id.expiration_date_edit_text)
@@ -129,9 +134,9 @@ class AddCardActivity : AppCompatActivity() {
                 selectedCardColor?.let { cardColorAdapter.updateSelectedCardColor(it) }
             }
 
-            addButton.text = "Update Card"
+            addButton.text = "Update"
 
-            addCardText.text = "Update Card"
+            addCardText.text = "UPDATE CARD"
         }
 
         addButton.setOnClickListener {

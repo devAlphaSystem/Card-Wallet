@@ -5,6 +5,7 @@ package com.midnightsonne.cardwallet
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ClipData
@@ -19,6 +20,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -80,6 +82,12 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
 
+        val optionsMenu: ImageView = findViewById(R.id.options_menu)
+
+        optionsMenu.setOnClickListener {
+            showOptionsMenuDialog()
+        }
+
         cards = loadCards()
 
         cardsRecyclerView = findViewById(R.id.cards_recycler_view)
@@ -121,7 +129,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCardOptions(card: Card, position: Int) {
         val dialog = Dialog(this)
-        dialog.setContentView(R.layout.card_options_dialog)
+        dialog.setContentView(R.layout.dialog_card_options)
 
         dialog.findViewById<TextView>(R.id.copy_card_number).setOnClickListener {
             val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -179,9 +187,9 @@ class MainActivity : AppCompatActivity() {
         val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
         dialog.window?.setLayout(width, RecyclerView.LayoutParams.WRAP_CONTENT)
 
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         layoutParams?.gravity = Gravity.CENTER
-        window?.attributes = layoutParams
+        dialog.window?.attributes = layoutParams
 
         showDimmedBackground()
         dialog.setOnDismissListener {
@@ -191,11 +199,41 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private fun showOptionsMenuDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_options, null)
+        val biometricsSwitch: Switch = dialogView.findViewById(R.id.biometrics_switch)
+
+        val sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
+        val biometricsEnabled = sharedPreferences.getBoolean("is_biometric_enabled", false)
+        biometricsSwitch.isChecked = biometricsEnabled
+
+        biometricsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("is_biometric_enabled", isChecked)
+            editor.apply()
+        }
+
+        val optionsDialog = AlertDialog.Builder(this).setView(dialogView).create()
+
+        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        optionsDialog.window?.setLayout(width, RecyclerView.LayoutParams.WRAP_CONTENT)
+
+        optionsDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        showDimmedBackground()
+        optionsDialog.setOnDismissListener {
+            hideDimmedBackground()
+        }
+
+        optionsDialog.show()
+    }
+
     private fun showWalletInfoDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Security Information")
 
-        val messageView = LayoutInflater.from(this).inflate(R.layout.dialog_security_info, null)
+        val messageView = LayoutInflater.from(this).inflate(R.layout.dialog_security, null)
         builder.setView(messageView)
 
         builder.setPositiveButton("OK") { dialog, _ ->

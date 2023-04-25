@@ -14,7 +14,7 @@ class CardColorAdapter(
     private var selectedCardColor: Int? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardColorViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_color_item, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_color, parent, false)
         return CardColorViewHolder(itemView)
     }
 

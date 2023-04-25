@@ -1,6 +1,7 @@
 <resources>
 
     <string name="app_name">Card Wallet</string>
+    <string name="cancel">Cancel</string>
 
     <string name="shared_preferences_file_key">card_wallet_shared_preferences</string>
     <string name="cards_list_key">cards_list</string>

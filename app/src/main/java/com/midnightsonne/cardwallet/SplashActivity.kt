@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
     private fun askUserToEnableBiometric() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Enable Biometric Authentication")
-        builder.setMessage("Would you like to enable biometric authentication for enhanced security?\n\nThis choice cannot be changed later.")
+        builder.setMessage("Would you like to enable biometric authentication for enhanced security?")
 
         builder.setPositiveButton("Yes") { _, _ ->
             val sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)

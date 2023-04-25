@@ -34,8 +34,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@drawable/shape_rounded_all_6_darker"
             android:hint="@string/card_name_hint"
             android:inputType="text"
+            android:padding="12dp"
             android:textColorHint="@color/info_text"
             android:textSize="16sp"
             android:theme="@style/EditTextTheme"
@@ -47,8 +49,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@drawable/shape_rounded_all_6_darker"
             android:hint="@string/card_number_hint"
             android:inputType="number"
+            android:padding="12dp"
             android:textColorHint="@color/info_text"
             android:textSize="16sp"
             android:theme="@style/EditTextTheme"
@@ -60,8 +64,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@drawable/shape_rounded_all_6_darker"
             android:hint="@string/card_holder_hint"
             android:inputType="text"
+            android:padding="12dp"
             android:textColorHint="@color/info_text"
             android:textSize="16sp"
             android:theme="@style/EditTextTheme"
@@ -79,10 +85,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/shape_rounded_all_6_darker"
                 android:hint="@string/card_exp_date_hint"
                 android:inputType="number"
+                android:padding="12dp"
                 android:textColorHint="@color/info_text"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
                 tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
@@ -93,10 +101,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
+                android:background="@drawable/shape_rounded_all_6_darker"
                 android:hint="@string/card_cvv_hint"
                 android:inputType="number"
+                android:padding="12dp"
                 android:textColorHint="@color/info_text"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
                 tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
@@ -107,41 +117,56 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
+                android:background="@drawable/shape_rounded_all_6_darker"
                 android:hint="@string/card_password_hint"
                 android:inputType="numberPassword"
+                android:padding="12dp"
                 android:textColorHint="@color/info_text"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:theme="@style/EditTextTheme"
                 tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:gravity="center_horizontal"
-            android:text="Card Color"
-            android:textColor="@color/info_text"
-            android:textSize="16sp"
-            tools:ignore="TextContrastCheck" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/card_color_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="32dp" />
 
-        <Button
-            android:id="@+id/add_card_button"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/sec_background"
-            android:text="@string/add_card_button_text"
-            android:textColor="@color/white" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/add_card_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:background="@color/sec_background"
+                android:text="@string/add_card_button_text"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle,VisualLintButtonSize" />
+
+            <Button
+                android:id="@+id/add_card_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:background="@color/sec_background"
+                android:text="@string/cancel"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle,VisualLintButtonSize" />
+        </LinearLayout>
 
     </LinearLayout>
 
