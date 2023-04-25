@@ -30,32 +30,41 @@
 
         <EditText
             android:id="@+id/card_name_edit_text"
+            style="@style/CustomEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/card_name_hint"
             android:inputType="text"
+            android:textColorHint="@color/info_text"
             android:textSize="16sp"
+            android:theme="@style/EditTextTheme"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <EditText
             android:id="@+id/card_number_edit_text"
+            style="@style/CustomEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/card_number_hint"
             android:inputType="number"
+            android:textColorHint="@color/info_text"
             android:textSize="16sp"
+            android:theme="@style/EditTextTheme"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <EditText
             android:id="@+id/card_holder_name_edit_text"
+            style="@style/CustomEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/card_holder_hint"
             android:inputType="text"
+            android:textColorHint="@color/info_text"
             android:textSize="16sp"
+            android:theme="@style/EditTextTheme"
             tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <LinearLayout
@@ -66,34 +75,43 @@
 
             <EditText
                 android:id="@+id/expiration_date_edit_text"
+                style="@style/CustomEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/card_exp_date_hint"
                 android:inputType="number"
+                android:textColorHint="@color/info_text"
                 android:textSize="16sp"
+                android:theme="@style/EditTextTheme"
                 tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
             <EditText
                 android:id="@+id/cvv_edit_text"
+                style="@style/CustomEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
                 android:hint="@string/card_cvv_hint"
                 android:inputType="number"
+                android:textColorHint="@color/info_text"
                 android:textSize="16sp"
+                android:theme="@style/EditTextTheme"
                 tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
             <EditText
                 android:id="@+id/password_edit_text"
+                style="@style/CustomEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
                 android:hint="@string/card_password_hint"
                 android:inputType="numberPassword"
+                android:textColorHint="@color/info_text"
                 android:textSize="16sp"
+                android:theme="@style/EditTextTheme"
                 tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         </LinearLayout>
@@ -103,22 +121,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:gravity="center_horizontal"
-            android:text="Card Flag"
-            android:textSize="16sp"
-            tools:ignore="TextContrastCheck" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/flag_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:gravity="center_horizontal"
             android:text="Card Color"
+            android:textColor="@color/info_text"
             android:textSize="16sp"
             tools:ignore="TextContrastCheck" />
 
@@ -135,6 +139,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
+            android:background="@color/sec_background"
             android:text="@string/add_card_button_text"
             android:textColor="@color/white" />
 

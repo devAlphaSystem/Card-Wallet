@@ -42,26 +42,13 @@ class AddCardActivity : AppCompatActivity() {
         val cardHolderNameEditText: EditText = findViewById(R.id.card_holder_name_edit_text)
         val passwordEditText: EditText = findViewById(R.id.password_edit_text)
 
-        val flagRecyclerView = findViewById<RecyclerView>(R.id.flag_recycler_view)
-        val flags = listOf(
-            R.drawable.flag_mastercard,
-            R.drawable.flag_visa,
-            R.drawable.flag_elo,
-            R.drawable.flag_hipercard,
-            R.drawable.flag_american_express
-        )
-        var selectedFlag: Int? = null
-        val flagAdapter = FlagAdapter(flags) { flag ->
-            selectedFlag = flag
-        }
+        val isEdit = intent.getBooleanExtra(EXTRA_IS_EDIT, false)
 
-        val flagLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        flagRecyclerView.layoutManager = flagLayoutManager
-        flagRecyclerView.adapter = flagAdapter
+        var cardFlag = "Unknown"
 
         val cardColorRecyclerView = findViewById<RecyclerView>(R.id.card_color_recycler_view)
         val cardColors = listOf(
-            R.drawable.card_black_20, R.drawable.card_silver_20, R.drawable.card_purple_20, R.drawable.card_red_20, R.drawable.card_blue_20, R.drawable.card_orange_20, R.drawable.card_green_20, R.drawable.card_yellow_20, R.drawable.card_brown_20, R.drawable.card_pink_20, R.drawable.card_cyan_20, R.drawable.card_teal_20
+            R.drawable.card_black_20, R.drawable.card_silver_20, R.drawable.card_purple_20, R.drawable.card_red_20, R.drawable.card_blue_20, R.drawable.card_orange_20, R.drawable.card_green_20, R.drawable.card_yellow_20
         )
         var selectedCardColor: Int? = null
         val cardColorAdapter = CardColorAdapter(cardColors) { cardColor ->
@@ -93,7 +80,13 @@ class AddCardActivity : AppCompatActivity() {
                 }
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                cardFlag = if (s != null && s.length == 19) {
+                    getCardFlag(s.toString().replace(" ", ""))
+                } else {
+                    "Unknown"
+                }
+            }
         })
 
         cardNumberEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(19))
@@ -121,8 +114,6 @@ class AddCardActivity : AppCompatActivity() {
 
         val addCardText: TextView = findViewById(R.id.add_card_text_view)
 
-        val isEdit = intent.getBooleanExtra(EXTRA_IS_EDIT, false)
-
         if (isEdit) {
             val cardToEdit: Card? = intent.getParcelableExtra(EXTRA_CARD)
 
@@ -134,8 +125,6 @@ class AddCardActivity : AppCompatActivity() {
                 cardHolderNameEditText.setText(cardToEdit.cardHolderName)
                 passwordEditText.setText(cardToEdit.password)
 
-                selectedFlag = cardToEdit.flag
-                selectedFlag?.let { flagAdapter.setSelectedFlag(it) }
                 selectedCardColor = cardToEdit.cardColor
                 selectedCardColor?.let { cardColorAdapter.updateSelectedCardColor(it) }
             }
@@ -166,13 +155,8 @@ class AddCardActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (passwordEditText.text.toString().length != 4) {
-                Toast.makeText(this, "Please enter a valid password", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
             val card = Card(
-                cardNameEditText.text.toString(), cardNumberEditText.text.toString(), expirationDateEditText.text.toString(), cvvEditText.text.toString(), cardHolderNameEditText.text.toString(), (selectedFlag ?: flags.first()), (selectedCardColor ?: cardColors.first()), passwordEditText.text.toString()
+                cardNameEditText.text.toString(), cardNumberEditText.text.toString(), expirationDateEditText.text.toString(), cvvEditText.text.toString(), cardHolderNameEditText.text.toString(), cardFlag, (selectedCardColor ?: cardColors.first()), passwordEditText.text.toString()
             )
 
             val resultIntent = Intent()
@@ -194,6 +178,20 @@ class AddCardActivity : AppCompatActivity() {
             Toast.makeText(this, actionMessage, Toast.LENGTH_SHORT).show()
 
             finish()
+        }
+    }
+
+    private fun getCardFlag(cardNumber: String): String {
+        return when {
+            cardNumber.startsWith("4") -> "Visa"
+            cardNumber.matches(Regex("^5[1-5].*")) -> "MasterCard"
+            cardNumber.matches(Regex("^3[47].*")) -> "American Express"
+            cardNumber.matches(Regex("^3(?:0[0-5]|[68].).*")) -> "Diners Club"
+            cardNumber.matches(Regex("^6(?:011|5..).*")) -> "Discover"
+            cardNumber.matches(Regex("^35(?:2[89]|[3-8].).*")) -> "JCB"
+            cardNumber.matches(Regex("^((?:506699|5067|509\\d|65003|65004|65040|65043|65048|6505|6506|6507|6509|6516|6550)\\d{10,17})")) -> "ELO"
+            cardNumber.matches(Regex("^((606282|637095|637568)\\d{10})")) -> "Hipercard"
+            else -> "Unknown"
         }
     }
 }

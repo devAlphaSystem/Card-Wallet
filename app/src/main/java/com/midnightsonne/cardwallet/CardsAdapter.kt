@@ -10,7 +10,9 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 @SuppressLint("DiscouragedApi")
-class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View, Card, Int) -> Unit) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
+class CardsAdapter(
+    private val cards: List<Card>, private val onCardOptionsClick: (Card, Int) -> Unit
+) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
@@ -30,7 +32,7 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
     override fun getItemCount() = cards.size
 
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val showHideInfoButton: ImageView = itemView.findViewById(R.id.show_hide_info_button)
+        private val cardFlagImageView: ImageView = itemView.findViewById(R.id.card_flag_image_view)
         private val cardNicknameTextView: TextView = itemView.findViewById(R.id.card_nickname_text_view)
         private val cardNumberTextView: TextView = itemView.findViewById(R.id.card_number_text_view)
         private val cardNameTextView: TextView = itemView.findViewById(R.id.card_name_text_view)
@@ -47,25 +49,42 @@ class CardsAdapter(private val cards: List<Card>, private val onCardClick: (View
             cardValidTextView.text = if (showSensitiveInfo) card.expirationDate else maskExpirationDate(card.expirationDate)
             cardCvvTextView.text = if (showSensitiveInfo) card.cvv else maskCvv(card.cvv)
 
-            setCardFlagDrawableResource(card.flag)
+            setCardFlagDrawableResource(getCardFlagDrawableResource(card.flag))
 
             cardView.setBackgroundResource(card.cardColor)
 
-            itemView.setOnClickListener { onCardClick(it, card, position) }
-
-            showHideInfoButton.setOnClickListener {
+            cardView.setOnClickListener {
                 showSensitiveInfo = !showSensitiveInfo
+                cardNumberTextView.text = if (showSensitiveInfo) card.cardNumber else maskCardNumber(card.cardNumber)
+                cardValidTextView.text = if (showSensitiveInfo) card.expirationDate else maskExpirationDate(card.expirationDate)
+                cardCvvTextView.text = if (showSensitiveInfo) card.cvv else maskCvv(card.cvv)
+            }
 
-                showHideInfoButton.setImageResource(if (showSensitiveInfo) R.drawable.icon_visibility_off else R.drawable.icon_visibility_on)
+            val showHideOptionsButton: ImageView = itemView.findViewById(R.id.show_hide_options_button)
 
-                bind(card, position)
+            showHideOptionsButton.setOnClickListener {
+                onCardOptionsClick(card, position)
             }
         }
 
         private fun setCardFlagDrawableResource(flagResourceId: Int) {
             if (flagResourceId != 0) {
-                itemView.findViewById<ImageView>(R.id.card_flag_image_view).setImageResource(flagResourceId)
+                cardFlagImageView.setImageResource(flagResourceId)
             }
+        }
+    }
+
+    private fun getCardFlagDrawableResource(cardFlag: String): Int {
+        return when (cardFlag) {
+            "Visa" -> R.drawable.flag_visa
+            "MasterCard" -> R.drawable.flag_mastercard
+            "American Express" -> R.drawable.flag_american_express
+            "Diners Club" -> R.drawable.flag_diners
+            "Discover" -> R.drawable.flag_discover
+            "JCB" -> R.drawable.flag_jcb
+            "ELO" -> R.drawable.flag_elo
+            "Hipercard" -> R.drawable.flag_hipercard
+            else -> 0
         }
     }
 

@@ -7,6 +7,18 @@
     android:background="@color/background"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/cards_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:text="Your Cards"
+        android:textColor="@color/primary_text"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/empty_cards_message"
         android:layout_width="match_parent"
@@ -17,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/cards_title">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -40,7 +52,7 @@
                 android:padding="16dp"
                 android:text="Cards will be shown like this."
                 android:textAllCaps="true"
-                android:textColor="@color/info_text"
+                android:textColor="@color/primary"
                 android:textSize="14sp"
                 tools:ignore="HardcodedText,TextContrastCheck" />
 
@@ -53,6 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/cards_title"
         tools:ignore="MissingConstraints">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -62,7 +75,7 @@
             android:clipToPadding="false"
             android:paddingHorizontal="16dp"
             android:paddingTop="16dp"
-            android:paddingBottom="96dp"
+            android:paddingBottom="196dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:src="@drawable/icon_info"
+                    android:src="@drawable/icon_security"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -131,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:src="@drawable/icon_add_circle"
+                    android:src="@drawable/icon_add_card"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -146,6 +159,34 @@
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
+
+            <!--            <RelativeLayout-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="36dp"-->
+            <!--                android:layout_marginEnd="36dp"-->
+            <!--                android:layout_marginBottom="8dp">-->
+
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/options_menu"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:padding="12dp"-->
+            <!--                    android:src="@drawable/icon_settings"-->
+            <!--                    tools:ignore="ContentDescription" />-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_below="@id/options_menu"-->
+            <!--                    android:layout_centerHorizontal="true"-->
+            <!--                    android:layout_marginTop="-8dp"-->
+            <!--                    android:text="Options"-->
+            <!--                    android:textColor="@color/info_text"-->
+            <!--                    android:textSize="12sp"-->
+            <!--                    tools:ignore="HardcodedText" />-->
+
+            <!--            </RelativeLayout>-->
 
         </LinearLayout>
 

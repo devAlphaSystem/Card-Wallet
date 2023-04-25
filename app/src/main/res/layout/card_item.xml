@@ -65,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="VALID THRU"
-                        android:textColor="@color/background"
+                        android:textColor="@color/info_text"
                         android:textSize="12sp"
                         tools:ignore="HardcodedText,TextContrastCheck" />
 
@@ -90,7 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="CVV"
-                        android:textColor="@color/background"
+                        android:textColor="@color/info_text"
                         android:textSize="12sp"
                         tools:ignore="HardcodedText,TextContrastCheck" />
 
@@ -116,20 +116,21 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="16dp"
+            android:scaleType="centerInside"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/show_hide_info_button"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:id="@+id/show_hide_options_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/shape_rounded_360"
-            android:padding="8dp"
-            android:src="@drawable/icon_visibility_on"
-            tools:ignore="ContentDescription" />
+            android:background="@drawable/shape_rounded_all_6_alpha"
+            android:padding="4dp"
+            android:src="@drawable/icon_more_horiz"
+            tools:ignore="ContentDescription,ImageContrastCheck" />
 
     </RelativeLayout>
 

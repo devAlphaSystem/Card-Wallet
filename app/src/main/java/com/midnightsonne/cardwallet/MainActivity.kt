@@ -12,6 +12,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -82,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
         cardsRecyclerView = findViewById(R.id.cards_recycler_view)
 
-        cardsAdapter = CardsAdapter(cards) { _, card, position -> showCardOptions(card, position) }
+        cardsAdapter = CardsAdapter(cards) { card, position -> showCardOptions(card, position) }
 
         cardsRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -100,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
             cards = loadCards()
-            cardsAdapter = CardsAdapter(cards) { _, card, position -> showCardOptions(card, position) }
+            cardsAdapter = CardsAdapter(cards) { card, position -> showCardOptions(card, position) }
             cardsRecyclerView.adapter = cardsAdapter
 
             swipeRefreshLayout.isRefreshing = false
@@ -177,6 +179,7 @@ class MainActivity : AppCompatActivity() {
         val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
         dialog.window?.setLayout(width, RecyclerView.LayoutParams.WRAP_CONTENT)
 
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         layoutParams?.gravity = Gravity.CENTER
         window?.attributes = layoutParams
 
