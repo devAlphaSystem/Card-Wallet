@@ -74,20 +74,6 @@ class CardsAdapter(
         }
     }
 
-    private fun getCardFlagDrawableResource(cardFlag: String): Int {
-        return when (cardFlag) {
-            "Visa" -> R.drawable.flag_visa
-            "MasterCard" -> R.drawable.flag_mastercard
-            "American Express" -> R.drawable.flag_american_express
-            "Diners Club" -> R.drawable.flag_diners
-            "Discover" -> R.drawable.flag_discover
-            "JCB" -> R.drawable.flag_jcb
-            "ELO" -> R.drawable.flag_elo
-            "Hipercard" -> R.drawable.flag_hipercard
-            else -> 0
-        }
-    }
-
     private fun maskCardNumber(cardNumber: String): String {
         return if (cardNumber.length >= 4) {
             "**** **** **** " + cardNumber.substring(cardNumber.length - 4)
@@ -108,5 +94,19 @@ class CardsAdapter(
 
     private fun maskCvv(cvv: String): String {
         return cvv.replace(Regex("[0-9]"), "*")
+    }
+
+    private fun getCardFlagDrawableResource(cardFlag: String): Int {
+        return when (cardFlag) {
+            "Visa" -> R.drawable.flag_visa
+            "MasterCard" -> R.drawable.flag_mastercard
+            "American Express" -> R.drawable.flag_american_express
+            "Diners Club" -> R.drawable.flag_diners
+            "Discover" -> R.drawable.flag_discover
+            "JCB" -> R.drawable.flag_jcb
+            "ELO" -> R.drawable.flag_elo
+            "Hipercard" -> R.drawable.flag_hipercard
+            else -> 0
+        }
     }
 }

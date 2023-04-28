@@ -95,7 +95,7 @@ class SplashActivity : AppCompatActivity() {
 
                 failedAttempts++
 
-                if (failedAttempts >= 5) {
+                if (failedAttempts >= 3) {
                     finish()
                 } else {
                     Toast.makeText(this@SplashActivity, "Authentication failed. Attempt: $failedAttempts", Toast.LENGTH_SHORT).show()

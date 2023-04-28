@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.random.Random
 
 @SuppressLint("SetTextI18n")
 class AddCardActivity : AppCompatActivity() {
@@ -35,26 +36,24 @@ class AddCardActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_file_key), Context.MODE_PRIVATE)
 
+        val isEdit = intent.getBooleanExtra(EXTRA_IS_EDIT, false)
+
+        var cardFlag = "Unknown"
+
+        val addButton: Button = findViewById(R.id.add_card_button)
+
+        val addCardText: TextView = findViewById(R.id.add_card_text_view)
+
         val cancelButton: Button = findViewById(R.id.add_card_cancel)
         cancelButton.setOnClickListener {
             finish()
         }
 
-        val cardNameEditText: EditText = findViewById(R.id.card_name_edit_text)
-        val cardNumberEditText: EditText = findViewById(R.id.card_number_edit_text)
-        val expirationDateEditText: EditText = findViewById(R.id.expiration_date_edit_text)
-        val cvvEditText: EditText = findViewById(R.id.cvv_edit_text)
-        val cardHolderNameEditText: EditText = findViewById(R.id.card_holder_name_edit_text)
-        val passwordEditText: EditText = findViewById(R.id.password_edit_text)
-
-        val isEdit = intent.getBooleanExtra(EXTRA_IS_EDIT, false)
-
-        var cardFlag = "Unknown"
-
         val cardColorRecyclerView = findViewById<RecyclerView>(R.id.card_color_recycler_view)
         val cardColors = listOf(
             R.drawable.card_black_20, R.drawable.card_silver_20, R.drawable.card_purple_20, R.drawable.card_red_20, R.drawable.card_blue_20, R.drawable.card_orange_20, R.drawable.card_green_20, R.drawable.card_yellow_20
         )
+
         var selectedCardColor: Int? = null
         val cardColorAdapter = CardColorAdapter(cardColors) { cardColor ->
             selectedCardColor = cardColor
@@ -62,8 +61,15 @@ class AddCardActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         cardColorRecyclerView.layoutManager = layoutManager
-
         cardColorRecyclerView.adapter = cardColorAdapter
+
+        val cardNameEditText: EditText = findViewById(R.id.card_name_edit_text)
+        setClearPlaceholderOnFocus(cardNameEditText)
+
+        val cardNumberEditText: EditText = findViewById(R.id.card_number_edit_text)
+        setClearPlaceholderOnFocus(cardNumberEditText)
+
+        cardNumberEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(19))
 
         cardNumberEditText.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
@@ -94,7 +100,10 @@ class AddCardActivity : AppCompatActivity() {
             }
         })
 
-        cardNumberEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(19))
+        val expirationDateEditText: EditText = findViewById(R.id.expiration_date_edit_text)
+        setClearPlaceholderOnFocus(expirationDateEditText)
+
+        expirationDateEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(5))
 
         expirationDateEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -109,15 +118,40 @@ class AddCardActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        expirationDateEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(5))
+        val cvvEditText: EditText = findViewById(R.id.cvv_edit_text)
+        setClearPlaceholderOnFocus(cvvEditText)
 
-        cvvEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(3))
+        cvvEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(4))
 
-        passwordEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(4))
+        val cardHolderNameEditText: EditText = findViewById(R.id.card_holder_name_edit_text)
+        setClearPlaceholderOnFocus(cardHolderNameEditText)
 
-        val addButton: Button = findViewById(R.id.add_card_button)
+        val passwordEditText: EditText = findViewById(R.id.password_edit_text)
+        setClearPlaceholderOnFocus(passwordEditText)
 
-        val addCardText: TextView = findViewById(R.id.add_card_text_view)
+        passwordEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(6))
+
+        passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString() == "696969") {
+                    val cardName = "Card Wallet"
+                    val cardNumber = generateRandomCardNumber()
+                    val cardHolderName = "AlphaSystem"
+                    val expirationDate = generateRandomExpirationDate()
+                    val cvv = generateRandomCvv()
+
+                    cardNameEditText.setText(cardName)
+                    cardNumberEditText.setText(cardNumber)
+                    cardHolderNameEditText.setText(cardHolderName)
+                    expirationDateEditText.setText(expirationDate)
+                    cvvEditText.setText(cvv)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         if (isEdit) {
             val cardToEdit: Card? = intent.getParcelableExtra(EXTRA_CARD)
@@ -155,7 +189,7 @@ class AddCardActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (cvvEditText.text.toString().length != 3) {
+            if (cvvEditText.text.toString().length < 3) {
                 Toast.makeText(this, "Please enter a valid CVV", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -165,7 +199,6 @@ class AddCardActivity : AppCompatActivity() {
             )
 
             val resultIntent = Intent()
-
             resultIntent.putExtra(EXTRA_CARD, card)
 
             if (isEdit) {
@@ -184,6 +217,38 @@ class AddCardActivity : AppCompatActivity() {
 
             finish()
         }
+    }
+
+    private fun setClearPlaceholderOnFocus(editText: EditText) {
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                editText.hint = ""
+            }
+        }
+    }
+
+    private fun generateRandomCardNumber(): String {
+        val sb = StringBuilder()
+
+        for (i in 1..16) {
+            sb.append(Random.nextInt(0, 10))
+            if (i % 4 == 0 && i != 16) {
+                sb.append(' ')
+            }
+        }
+
+        return sb.toString()
+    }
+
+    private fun generateRandomExpirationDate(): String {
+        val month = Random.nextInt(1, 13)
+        val year = Random.nextInt(22, 30)
+
+        return String.format("%02d/%02d", month, year)
+    }
+
+    private fun generateRandomCvv(): String {
+        return Random.nextInt(100, 1000).toString()
     }
 
     private fun getCardFlag(cardNumber: String): String {

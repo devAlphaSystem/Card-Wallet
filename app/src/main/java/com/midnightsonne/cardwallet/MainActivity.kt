@@ -39,9 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cardsAdapter: CardsAdapter
     private lateinit var cards: MutableList<Card>
     private lateinit var emptyCardsMessage: MaterialCardView
-
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
     private lateinit var backgroundDimmer: View
 
     private val addCardLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
